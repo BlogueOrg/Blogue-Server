@@ -16,7 +16,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public CreateMemberResponse createUser(@RequestBody @Valid CreateMemberRequest request) {
+    public CreateMemberResponse createMember(@RequestBody @Valid CreateMemberRequest request) {
         // API 개발할 땐 엔티티를 파라미터로 받지 말기.
         // 엔티티 함부로 노출시키지 말기.
 
