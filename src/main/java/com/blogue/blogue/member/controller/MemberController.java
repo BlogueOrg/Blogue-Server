@@ -40,4 +40,10 @@ public class MemberController {
                         .collect(Collectors.toList());
         return new ListResultResponse(collect.size(), collect); // 오브젝트 타입으로 반환
     }
+
+    @GetMapping("/{memberId}")
+    public GetMemberResponse getMember(@PathVariable Long memberId) {
+        Member findMember = memberService.findOne(memberId);
+        return new GetMemberResponse(findMember.getUsername());
+    }
 }
