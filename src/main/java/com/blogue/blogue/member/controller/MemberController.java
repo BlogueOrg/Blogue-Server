@@ -1,12 +1,21 @@
 package com.blogue.blogue.member.controller;
 
 import com.blogue.blogue.member.domain.Member;
+import com.blogue.blogue.member.dto.MemberDto;
 import com.blogue.blogue.member.dto.request.CreateMemberRequest;
+import com.blogue.blogue.member.dto.request.UpdateMemberUsernameRequest;
 import com.blogue.blogue.member.dto.response.CreateMemberResponse;
+import com.blogue.blogue.member.dto.response.DeleteMemberResponse;
+import com.blogue.blogue.member.dto.response.GetMemberResponse;
+import com.blogue.blogue.member.dto.response.UpdateMemberUsernameResponse;
 import com.blogue.blogue.member.service.MemberService;
+import com.blogue.blogue.util.ListResultResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/member")
@@ -25,5 +34,35 @@ public class MemberController {
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
+    }
+
+    @GetMapping("/")
+    public ListResultResponse getMembers(){
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                .map(u -> new MemberDto(u.getUsername()))
+                        .collect(Collectors.toList());
+        return new ListResultResponse(collect.size(), collect); // 오브젝트 타입으로 반환
+    }
+
+    @GetMapping("/{memberId}")
+    public GetMemberResponse getMember(@PathVariable Long memberId) {
+        Member findMember = memberService.findMember(memberId);
+        return new GetMemberResponse(findMember.getUsername());
+    }
+
+    @PutMapping("/{memberId}")
+    public UpdateMemberUsernameResponse updateMemberUsername(@PathVariable Long memberId,
+                                                             @RequestBody @Valid UpdateMemberUsernameRequest request){
+        // 커맨드와 쿼리 분리 -  유지보수성 증대
+        memberService.updateUsername(memberId, request.getUsername()); // 커맨드
+        Member findMember = memberService.findMember(memberId); // 쿼리
+        return new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername());
+    }
+
+    @DeleteMapping("/{memberId}")
+    public DeleteMemberResponse deleteMember(@PathVariable Long memberId){
+        memberService.deleteMember(memberId); // 커맨드
+        return new DeleteMemberResponse("Deleted");
     }
 }

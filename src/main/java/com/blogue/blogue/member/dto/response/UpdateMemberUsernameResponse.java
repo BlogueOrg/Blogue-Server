@@ -2,10 +2,10 @@ package com.blogue.blogue.member.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class CreateMemberResponse {
+public class UpdateMemberUsernameResponse {
     private Long id;
+    private String username;
 }

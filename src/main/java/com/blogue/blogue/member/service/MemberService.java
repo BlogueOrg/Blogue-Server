@@ -28,4 +28,25 @@ public class MemberService {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
+
+    public List<Member> findMembers(){
+        return memberRepository.findAll();
+    }
+
+    public Member findMember(Long memberId){
+        return memberRepository.findById(memberId).get();
+    }
+
+    @Transactional
+    public void updateUsername(Long id, String username) {
+        Member member = memberRepository.findById(id).get();
+        member.setUsername(username);
+        // member를 반환할 수도 있지만 그렇게 되면 커맨드와 쿼리를 한 메소드 안에서 하는 게 된다.
+        // id 정도만 반환하거나 아예 반환하지 않는 게 깔끔하다.
+    }
+
+    public void deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+        member.setIsDeleted(true);
+    }
 }
