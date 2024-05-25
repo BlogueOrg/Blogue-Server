@@ -3,7 +3,9 @@ package com.blogue.blogue.member.controller;
 import com.blogue.blogue.member.domain.Member;
 import com.blogue.blogue.member.dto.MemberDto;
 import com.blogue.blogue.member.dto.request.CreateMemberRequest;
+import com.blogue.blogue.member.dto.request.UpdateMemberUsernameRequest;
 import com.blogue.blogue.member.dto.response.CreateMemberResponse;
+import com.blogue.blogue.member.dto.response.UpdateMemberUsernameResponse;
 import com.blogue.blogue.member.service.MemberService;
 import com.blogue.blogue.util.ListResultResponse;
 import jakarta.validation.Valid;
@@ -45,5 +47,14 @@ public class MemberController {
     public GetMemberResponse getMember(@PathVariable Long memberId) {
         Member findMember = memberService.findMember(memberId);
         return new GetMemberResponse(findMember.getUsername());
+    }
+
+    @PutMapping("/{memberId}")
+    public UpdateMemberUsernameResponse updateMemberUsername(@PathVariable Long memberId,
+                                                             @RequestBody @Valid UpdateMemberUsernameRequest request){
+        // 커맨드와 쿼리 분리 -  유지보수성 증대
+        memberService.updateUsername(memberId, request.getUsername()); // 커맨드
+        Member findMember = memberService.findMember(memberId); // 쿼리
+        return new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername());
     }
 }
