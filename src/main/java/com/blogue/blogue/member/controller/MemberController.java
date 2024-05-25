@@ -5,6 +5,8 @@ import com.blogue.blogue.member.dto.MemberDto;
 import com.blogue.blogue.member.dto.request.CreateMemberRequest;
 import com.blogue.blogue.member.dto.request.UpdateMemberUsernameRequest;
 import com.blogue.blogue.member.dto.response.CreateMemberResponse;
+import com.blogue.blogue.member.dto.response.DeleteMemberResponse;
+import com.blogue.blogue.member.dto.response.GetMemberResponse;
 import com.blogue.blogue.member.dto.response.UpdateMemberUsernameResponse;
 import com.blogue.blogue.member.service.MemberService;
 import com.blogue.blogue.util.ListResultResponse;
@@ -56,5 +58,11 @@ public class MemberController {
         memberService.updateUsername(memberId, request.getUsername()); // 커맨드
         Member findMember = memberService.findMember(memberId); // 쿼리
         return new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername());
+    }
+
+    @DeleteMapping("/{memberId}")
+    public DeleteMemberResponse deleteMember(@PathVariable Long memberId){
+        memberService.deleteMember(memberId); // 커맨드
+        return new DeleteMemberResponse("Deleted");
     }
 }
