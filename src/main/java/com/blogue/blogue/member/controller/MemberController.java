@@ -11,7 +11,7 @@ import com.blogue.blogue.member.dto.response.UpdateMemberUsernameResponse;
 import com.blogue.blogue.member.service.MemberService;
 import com.blogue.blogue.util.ListResultResponse;
 import com.blogue.blogue.util.ResponseDTO;
-import com.blogue.blogue.util.ResponseMessage;
+import com.blogue.blogue.util.Status;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,8 @@ public class MemberController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDTO<>(
-                        ResponseMessage.MEMBER_CREATED,
+                        Status.MEMBER_CREATED.getStatusCode().value(),
+                        Status.MEMBER_CREATED.getStatusMessage(),
                         new CreateMemberResponse(id))
                 );
     }
