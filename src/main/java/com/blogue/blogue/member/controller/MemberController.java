@@ -37,13 +37,8 @@ public class MemberController {
         member.setUsername(request.getUsername());
 
         Long id = memberService.join(member);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ResponseDTO<>(
-                        Status.MEMBER_CREATED.getStatusCode().value(),
-                        Status.MEMBER_CREATED.getStatusMessage(),
-                        new CreateMemberResponse(id))
-                );
+        return ResponseEntity.ok()
+                .body(new ResponseDTO(Status.MEMBER_CREATED, new CreateMemberResponse(id)));
     }
 
     @GetMapping("/")

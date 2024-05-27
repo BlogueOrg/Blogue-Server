@@ -9,4 +9,10 @@ public class ResponseDTO <T> {
     private Integer statusCode;
     private String statusMessage;
     private T data;
+
+    public ResponseDTO (Status status, T data) {
+        statusCode = status.getStatusCode().value();
+        statusMessage = status.getStatusMessage();
+        this.data = data;
+    }
 }
