@@ -1,7 +1,9 @@
 package com.blogue.blogue.util;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public enum ResponseMessage {
 
