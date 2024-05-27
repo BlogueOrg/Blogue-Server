@@ -10,8 +10,12 @@ import com.blogue.blogue.member.dto.response.GetMemberResponse;
 import com.blogue.blogue.member.dto.response.UpdateMemberUsernameResponse;
 import com.blogue.blogue.member.service.MemberService;
 import com.blogue.blogue.util.ListResultResponse;
+import com.blogue.blogue.util.ResponseDTO;
+import com.blogue.blogue.util.ResponseMessage;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +29,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public CreateMemberResponse createMember(@RequestBody @Valid CreateMemberRequest request) {
+    public ResponseEntity createMember(@RequestBody @Valid CreateMemberRequest request) {
         // API 개발할 땐 엔티티를 파라미터로 받지 말기.
         // 엔티티 함부로 노출시키지 말기.
 
@@ -33,7 +37,12 @@ public class MemberController {
         member.setUsername(request.getUsername());
 
         Long id = memberService.join(member);
-        return new CreateMemberResponse(id);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseDTO<>(
+                        ResponseMessage.MEMBER_CREATED,
+                        new CreateMemberResponse(id))
+                );
     }
 
     @GetMapping("/")
