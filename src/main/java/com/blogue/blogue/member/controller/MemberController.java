@@ -41,12 +41,17 @@ public class MemberController {
     }
 
     @GetMapping("/")
-    public ListResultResponse getMembers(){
+    public ResponseEntity getMembers(){
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()
                 .map(u -> new MemberDto(u.getUsername()))
                         .collect(Collectors.toList());
-        return new ListResultResponse(collect.size(), collect); // 오브젝트 타입으로 반환
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBERS_FETCHED,
+                new ListResultResponse(collect.size(), collect)
+        );
+        return response.returnResponseEntity();
     }
 
     @GetMapping("/{memberId}")

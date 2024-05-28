@@ -8,7 +8,11 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum Status {
 
-    MEMBER_CREATED(HttpStatus.CREATED, "회원 생성이 완료되었습니다.");
+    // Member creation
+    MEMBER_CREATED(HttpStatus.CREATED, "New member is successfully created"),
+
+    // Get members
+    MEMBERS_FETCHED(HttpStatus.OK, "Members are fetched successfully"),
 
     private HttpStatus httpStatus;
     private String statusMessage;
