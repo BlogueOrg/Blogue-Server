@@ -16,12 +16,15 @@ public class ResponseDTO <T> {
     private String statusMessage;
     @JsonIgnore
     private Status status;
-    private T body;
-
+    private T body = null;
 
     public ResponseDTO(Status status, T body) {
         this.status = status;
         this.body = body;
+    }
+
+    public ResponseDTO(Status status) {
+        this.status = status;
     }
 
     public ResponseDTO(Integer statusCode, String statusMessage, Status status, T body) {

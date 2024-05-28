@@ -80,8 +80,12 @@ public class MemberController {
     }
 
     @DeleteMapping("/{memberId}")
-    public DeleteMemberResponse deleteMember(@PathVariable Long memberId){
+    public ResponseEntity deleteMember(@PathVariable Long memberId){
         memberService.deleteMember(memberId); // 커맨드
-        return new DeleteMemberResponse("Deleted");
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBER_DELETED
+        );
+        return response.returnResponseEntity();
     }
 }

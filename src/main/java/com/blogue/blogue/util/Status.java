@@ -20,6 +20,9 @@ public enum Status {
     // Update member
     MEMBER_USERNAME_UPDATED(HttpStatus.OK, "Username of the member is updated successfully"),
 
+    // Delete member
+    MEMBER_DELETED(HttpStatus.OK, "Member deleted successfully");
+
     private HttpStatus httpStatus;
     private String statusMessage;
 }
