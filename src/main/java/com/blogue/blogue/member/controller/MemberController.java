@@ -10,8 +10,11 @@ import com.blogue.blogue.member.dto.response.GetMemberResponse;
 import com.blogue.blogue.member.dto.response.UpdateMemberUsernameResponse;
 import com.blogue.blogue.member.service.MemberService;
 import com.blogue.blogue.util.ListResultResponse;
+import com.blogue.blogue.util.ResponseDTO;
+import com.blogue.blogue.util.Status;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public CreateMemberResponse createMember(@RequestBody @Valid CreateMemberRequest request) {
+    public ResponseEntity createMember(@RequestBody @Valid CreateMemberRequest request) {
         // API 개발할 땐 엔티티를 파라미터로 받지 말기.
         // 엔티티 함부로 노출시키지 말기.
 
@@ -33,36 +36,57 @@ public class MemberController {
         member.setUsername(request.getUsername());
 
         Long id = memberService.join(member);
-        return new CreateMemberResponse(id);
+
+        ResponseDTO response = new ResponseDTO(Status.MEMBER_CREATED, new CreateMemberResponse(id));
+        return response.returnResponseEntity();
     }
 
     @GetMapping("/")
-    public ListResultResponse getMembers(){
+    public ResponseEntity getMembers(){
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()
                 .map(u -> new MemberDto(u.getUsername()))
                         .collect(Collectors.toList());
-        return new ListResultResponse(collect.size(), collect); // 오브젝트 타입으로 반환
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBERS_FETCHED,
+                new ListResultResponse(collect.size(), collect)
+        );
+        return response.returnResponseEntity();
     }
 
     @GetMapping("/{memberId}")
-    public GetMemberResponse getMember(@PathVariable Long memberId) {
+    public ResponseEntity getMember(@PathVariable Long memberId) {
         Member findMember = memberService.findMember(memberId);
-        return new GetMemberResponse(findMember.getUsername());
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBER_FETCHED,
+                new GetMemberResponse(findMember.getUsername())
+        );
+        return response.returnResponseEntity();
     }
 
     @PutMapping("/{memberId}")
-    public UpdateMemberUsernameResponse updateMemberUsername(@PathVariable Long memberId,
+    public ResponseEntity updateMemberUsername(@PathVariable Long memberId,
                                                              @RequestBody @Valid UpdateMemberUsernameRequest request){
         // 커맨드와 쿼리 분리 -  유지보수성 증대
         memberService.updateUsername(memberId, request.getUsername()); // 커맨드
         Member findMember = memberService.findMember(memberId); // 쿼리
-        return new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername());
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBER_USERNAME_UPDATED,
+                new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername())
+        );
+        return response.returnResponseEntity();
     }
 
     @DeleteMapping("/{memberId}")
-    public DeleteMemberResponse deleteMember(@PathVariable Long memberId){
+    public ResponseEntity deleteMember(@PathVariable Long memberId){
         memberService.deleteMember(memberId); // 커맨드
-        return new DeleteMemberResponse("Deleted");
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBER_DELETED
+        );
+        return response.returnResponseEntity();
     }
 }
