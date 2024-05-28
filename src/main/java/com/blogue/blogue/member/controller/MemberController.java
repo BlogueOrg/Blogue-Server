@@ -36,6 +36,7 @@ public class MemberController {
         member.setUsername(request.getUsername());
 
         Long id = memberService.join(member);
+
         ResponseDTO response = new ResponseDTO(Status.MEMBER_CREATED, new CreateMemberResponse(id));
         return response.returnResponseEntity();
     }

@@ -1,13 +1,9 @@
 package com.blogue.blogue.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.net.http.HttpResponse;
 
 @Data
 @Builder
