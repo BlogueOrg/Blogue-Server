@@ -10,6 +10,6 @@ public enum Status {
 
     MEMBER_CREATED(HttpStatus.CREATED, "회원 생성이 완료되었습니다.");
 
-    private HttpStatus statusCode;
+    private HttpStatus httpStatus;
     private String statusMessage;
 }

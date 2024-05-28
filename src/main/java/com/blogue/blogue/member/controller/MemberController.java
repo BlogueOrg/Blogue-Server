@@ -14,7 +14,6 @@ import com.blogue.blogue.util.ResponseDTO;
 import com.blogue.blogue.util.Status;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +36,8 @@ public class MemberController {
         member.setUsername(request.getUsername());
 
         Long id = memberService.join(member);
-        return ResponseEntity.ok()
-                .body(new ResponseDTO(Status.MEMBER_CREATED, new CreateMemberResponse(id)));
+        ResponseDTO response = new ResponseDTO(Status.MEMBER_CREATED, new CreateMemberResponse(id));
+        return response.returnResponseEntity();
     }
 
     @GetMapping("/")
