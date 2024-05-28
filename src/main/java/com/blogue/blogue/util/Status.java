@@ -14,6 +14,9 @@ public enum Status {
     // Get members
     MEMBERS_FETCHED(HttpStatus.OK, "Members are fetched successfully"),
 
+    // Get single
+    MEMBER_FETCHED(HttpStatus.OK, "The member is fetched successfully"),
+
     private HttpStatus httpStatus;
     private String statusMessage;
 }

@@ -55,9 +55,14 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public GetMemberResponse getMember(@PathVariable Long memberId) {
+    public ResponseEntity getMember(@PathVariable Long memberId) {
         Member findMember = memberService.findMember(memberId);
-        return new GetMemberResponse(findMember.getUsername());
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBER_FETCHED,
+                new GetMemberResponse(findMember.getUsername())
+        );
+        return response.returnResponseEntity();
     }
 
     @PutMapping("/{memberId}")
