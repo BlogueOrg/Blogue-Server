@@ -17,6 +17,9 @@ public enum Status {
     // Get single
     MEMBER_FETCHED(HttpStatus.OK, "The member is fetched successfully"),
 
+    // Update member
+    MEMBER_USERNAME_UPDATED(HttpStatus.OK, "Username of the member is updated successfully"),
+
     private HttpStatus httpStatus;
     private String statusMessage;
 }

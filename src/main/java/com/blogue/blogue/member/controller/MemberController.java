@@ -66,12 +66,17 @@ public class MemberController {
     }
 
     @PutMapping("/{memberId}")
-    public UpdateMemberUsernameResponse updateMemberUsername(@PathVariable Long memberId,
+    public ResponseEntity updateMemberUsername(@PathVariable Long memberId,
                                                              @RequestBody @Valid UpdateMemberUsernameRequest request){
         // 커맨드와 쿼리 분리 -  유지보수성 증대
         memberService.updateUsername(memberId, request.getUsername()); // 커맨드
         Member findMember = memberService.findMember(memberId); // 쿼리
-        return new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername());
+
+        ResponseDTO response = new ResponseDTO(
+                Status.MEMBER_USERNAME_UPDATED,
+                new UpdateMemberUsernameResponse(findMember.getId(), findMember.getUsername())
+        );
+        return response.returnResponseEntity();
     }
 
     @DeleteMapping("/{memberId}")
