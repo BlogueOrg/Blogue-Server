@@ -27,7 +27,7 @@ jobs:
         postgres_password: ${{ secrets.DB_PASSWORD }}
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build --scan
 
     - name: Build Docker image
       run: docker build -t blogue-dev:latest .
