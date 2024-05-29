@@ -14,7 +14,7 @@ public class ResponseDTO <T> {
     private Status status;
     private T body = null;
 
-    public ResponseDTO(Status status, T body) {
+    public ResponseDTO(Status status, final T body) {
         this.status = status;
         this.body = body;
     }
