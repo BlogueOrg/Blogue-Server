@@ -18,6 +18,13 @@ jobs:
       with:
         distribution: 'corretto'
         java-version: '17'
+                  
+    - name: Set up PostgreSQL
+      uses: Daniel-Marynicz/postgresql-action@1.0.0
+      with:
+        postgres_user: ${{ secrets.DB_USER }}
+        postgres_db: ${{ secrets.DB_NAME }}
+        postgres_password: ${{ secrets.DB_PASSWORD }}
 
     - name: Build with Gradle
       run: ./gradlew build
