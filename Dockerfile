@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the build artifact from the build stage
-COPY build/libs/blogue.jar blogue.jar
+COPY build/libs/*.jar blogue.jar
 
 # Expose the application port
 EXPOSE 8080
