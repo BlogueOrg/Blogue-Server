@@ -37,3 +37,5 @@ out/
 .vscode/
 
 src/main/resources/application-secrets.yml
+
+src/main/resources/application-secrets-dev.yml
