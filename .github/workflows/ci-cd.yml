@@ -42,6 +42,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Create application-secrets.yml
+        run: |
+          cd ./src/main/resources
+          touch ./application-secrets.yml
+          echo "${{ secrets.SECRETS }}" > ./application-secrets.yml
+        shell: bash
+
       - name: Build with Gradle
         run: ./gradlew build --scan
 
