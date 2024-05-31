@@ -12,7 +12,7 @@ spring:
     include: secrets
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://{${ip}:${port}/${db-name}
+    url: jdbc:postgresql://${ip}:${port}/${db-name}
     username: ${db-username}
     password: ${db-password}
 
